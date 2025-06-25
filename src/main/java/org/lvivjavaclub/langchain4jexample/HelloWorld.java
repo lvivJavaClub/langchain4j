@@ -7,6 +7,8 @@ import dev.langchain4j.model.input.structured.StructuredPromptProcessor;
 import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 
+import java.util.List;
+
 public class HelloWorld {
 
     public static void main(String[] args) {
@@ -21,21 +23,24 @@ public class HelloWorld {
         System.out.println(answer);
 
         System.out.println("ANNOUNCEMENT:");
-        Prompt prompt = StructuredPromptProcessor.toPrompt(new LvivJavaClubAnnouncement("langchain4j", 2));
+        Prompt prompt = StructuredPromptProcessor.toPrompt(new LvivJavaClubAnnouncement("langchain4j", 2, List.of("AI", "LLM",
+         "MachineLearning")));
         String announcement = model.chat(prompt.text());
         System.out.println(announcement);
     }
 
     @StructuredPrompt({"I need an announcement that will encourage people to attend the next event of Lviv JavaClub. The topic " +
             "is “{{topic}}. It should be short, {{sentences}} sentences, describe why this topic is important and encourage " +
-            "people to join the event."})
+            "people to join the event. Add the {{hashtags}} hashtags at the end."})
     static class LvivJavaClubAnnouncement {
-        public LvivJavaClubAnnouncement(String topic, int sentences) {
+        public LvivJavaClubAnnouncement(String topic, int sentences, List<String> hashtags) {
             this.topic = topic;
             this.sentences = sentences;
+            this.hashtags = hashtags;
         }
 
         String topic;
         int sentences;
+        List<String> hashtags;
     }
 }
