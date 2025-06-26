@@ -1,6 +1,10 @@
 package org.lvivjavaclub.langchain4jexample;
 
+import dev.langchain4j.memory.ChatMemory;
+import dev.langchain4j.memory.chat.TokenWindowChatMemory;
 import dev.langchain4j.model.chat.ChatModel;
+import dev.langchain4j.model.openai.OpenAiChatModelName;
+import dev.langchain4j.model.openai.OpenAiTokenCountEstimator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
@@ -10,14 +14,10 @@ import java.util.Scanner;
 @Component
 public class ServiceChatRunner implements CommandLineRunner {
 
-    private final ChatModel chatModel;
+    private final LvivJavaClubService lvivJavaClubService;
 
-    @Autowired
-    private LvivJavaClubService lvivJavaClubService;
-
-    @Autowired
-    public ServiceChatRunner(ChatModel chatModel) {
-        this.chatModel = chatModel;
+    public ServiceChatRunner(LvivJavaClubService lvivJavaClubService) {
+        this.lvivJavaClubService = lvivJavaClubService;
     }
 
     @Override
@@ -30,7 +30,6 @@ public class ServiceChatRunner implements CommandLineRunner {
             }
             if (line.equalsIgnoreCase("clear")) {
                 lvivJavaClubService.evictChatMemory(1);
-                System.out.println("Starting new chat.");
                 continue;
             }
             if  (line.startsWith("Topic: ")) {

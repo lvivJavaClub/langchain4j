@@ -5,11 +5,10 @@ import dev.langchain4j.model.openai.OpenAiChatModel;
 import dev.langchain4j.model.openai.OpenAiChatModelName;
 import dev.langchain4j.service.AiServices;
 import dev.langchain4j.service.SystemMessage;
-import dev.langchain4j.service.memory.ChatMemoryAccess;
 
 public class AiDeveloper {
 
-    public interface SeniorDeveloper {
+    interface SeniorDeveloper {
 
         @SystemMessage("You are a senior developer answering question after a public talk. Answer politely and precise.")
         String qna(String question);
